@@ -1,0 +1,26 @@
+# Bit Shift
+input: 'x101x'
+blank: ' '
+start state: begin
+table:
+  # beginning state, replacing first bit with 0
+  begin:
+    1 : {write: 0, R: one}
+    0 : {write: 0, R: zero}
+    'x'  : {write: 'x', R: begin}
+  # if the previous bit is a 1
+  one:
+    1: {write: 1, R: one}
+    0: {write: 1, R: zero}
+    'x': {write: 'x', R: done}
+  # if the previous bit is a zero
+  zero:
+    1: {write: 0, R: one}
+    0: {write: 0, R: zero}
+    'x': {write: 'x', R: done}
+  # end of the input has been reached
+  done:
+
+  
+
+

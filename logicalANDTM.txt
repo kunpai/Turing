@@ -1,0 +1,39 @@
+# Logical AND
+input: 'x101x000x00010x'
+blank: ' '
+start state: begin
+table:
+# first state  
+  begin:
+    1 : {R: firstone}
+    0 : {R: firstzero}
+    'x'  : {R: begin}
+# checks if previous bit was a one    
+  firstone:
+    1: {R: firstone}
+    0: {R: firstone}
+    'x': {write: 'x', R: onedone}
+#checks if previous bit is zero, if zero remains in this state  
+  firstzero:
+    1: {R: firstone}
+    0: {R: firstzero}
+    'x': {write: 'x', R: zerodone}
+#bit string has 1 in it, 'x' signifies more inputs, so going back
+  onedone:
+    1: {R: begin}
+    0: {R: begin}
+    ' ': {write: 1, R: done}
+    'x': {R: begin}
+#if bit string is 0, output is always 0, so staying in same state
+  zerodone:
+    1: {R: zerodone}
+    0: {R: zerodone}
+    ' ': {write: 0, R: done}
+    'x': {R: zerodone}
+#writing out the 'x' at the end  
+  done:
+    1: {write: 'x', R: hlt}
+    0: {write: 'x', R: hlt}
+    ' ': {write: 'x', R: hlt}
+#stopping machine 
+  hlt:
